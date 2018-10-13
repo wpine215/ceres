@@ -2,9 +2,25 @@
 
 {% block content %}
 	<h1>Hi, {{ current_user.username }}!</h1>
-	<h1>View items</h1>
+	<h1><u>View items</u></h1>
 	<div>
-		<p>Item 1</p>
-		<p>Item 2</p>
+		<table>
+			<tr>
+				<th>Item</th>
+				<th>Quantity</th>
+				<th>Date Purchased</th>
+				<th>Date Expiring</th>
+			</tr>
+			{% for item in fridges %}
+			<tr>
+				<td>{{ item.item }}</td>
+				<td>{{ item.quantity }}</td>
+				<td>{{ item.timestamp }}</td>
+				<td>{{ item.expiration }}</td>
+			</tr>
+			{% endfor %}
+			</tbody>
+		</table>
 	</div>
+	<a href="{{ url_for('add') }}">Add Item</a>
 {% endblock %}

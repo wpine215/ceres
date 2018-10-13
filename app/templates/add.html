@@ -3,7 +3,21 @@
 {% block content %}
 	<h1>Hi, {{ current_user.username }}!</h1>
 	<h1>Add items</h1>
-	<div>
-		<p>Placeholder</p>
-	</div>
+	<form action="" method="post">
+		{{ form.hidden_tag() }}
+		<p>
+			{{ form.type.label }}<br>
+			{{ form.type }}
+		</p>
+		<p>
+			{{ form.item.label }}<br>
+			{{ form.item }}
+		</p>
+		<p>
+			{{ form.quant.label }} <br>
+			{{ form.quant(size=16) }}
+		</p>
+		<p>{{ form.submit() }}</p>
+	</form>
+	<a href="{{ url_for('index') }}">View Items</a>
 {% endblock %}

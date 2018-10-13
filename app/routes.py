@@ -1,19 +1,48 @@
 from flask import render_template, flash, redirect, url_for, request
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, ItemForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app.models import User, Fridge, Reference
+from datetime import datetime, timedelta
 
 @app.route('/')
 @login_required
 def index():
-	return render_template('view.html', title='View Items')
+	return render_template('view.html', title='View Items', fridges=Fridge.query.filter_by(user_id=current_user.get_id()).order_by(Fridge.expiration))
 
-@app.route('/add')
+@app.route('/add', methods=['GET', 'POST'])
 @login_required
 def add():
-	return render_template('add.html', title='Add Items')
+	form = ItemForm()
+	form.type.choices = [{'dairy','Dairy'},
+		   {'fruit','Fruit'},
+		   {'vegetable', 'Vegetable'},
+		   {'meat', 'Meat'},
+	       {'grains', 'Grains'},
+		   {'seafood', 'Seafood'},
+		   {'beverage', 'Beverage'}]
+	form.item.choices = [{'dairy','Dairy'},
+		   {'fruit','Fruit'},
+		   {'vegetable', 'Vegetable'},
+		   {'meat', 'Meat'},
+	       {'grains', 'Grains'},
+		   {'seafood', 'Seafood'},
+		   {'beverage', 'Beverage'}]
+
+	if form.validate_on_submit():
+		# ref_item = Reference.query.filter_by(item=form.item.data).first()
+		item = Fridge(user_id=current_user.get_id(),
+					  item=form.item.data,
+					  quantity=form.quant.data,
+					  expiration=datetime.now()-timedelta(days=5)#ref_item.roomtemp)
+				     )
+		db.session.add(item)
+		db.session.commit()
+		flash("Item successfully added.")
+		return redirect(url_for('add'))
+	return render_template('add.html', title='Add Items', form=form)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -50,3 +79,7 @@ def register():
 		flash("You have been registered. You may log in.")
 		return redirect(url_for('login'))
 	return render_template('register.html', title='Register', form=form)
+
+@app.route('/webcam')
+def webcam():
+	return render_template('webcam.html')
