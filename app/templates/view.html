@@ -14,8 +14,8 @@
 						<th>Item</th>
 						<th>Quantity</th>
 						<th>Purchased</th>
-						<th>Expiring</th>
-						<th>Use/Throw</th>
+						<th>Expiration</th>
+						<th class="center aligned">Use/Donate</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -23,11 +23,11 @@
 					<tr id="tr{{ item.id }}">
 						<td>{{ item.item }}</td>
 						<td>{{ item.quantity }}</td>
-						<td>{{ item.timestamp }}</td>
-						<td>{{ item.expiration }}</td>
-						<td>
+						<td>{{ item.timestamp.strftime('%m-%d-%Y') }}</td>
+						<td>{{ item.expiration.strftime('%m-%d-%Y') }}</td>
+						<td class="center aligned">
 							<button class="ui compact icon button" onclick='discardRow("{{ item.id }}");'>
-  							<i class="trash icon"></i>
+  							<i class="utensils icon"></i>
 							</button>
 						</td>
 					</tr>

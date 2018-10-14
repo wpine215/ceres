@@ -2,7 +2,7 @@
   ('/', 'index', 'Home'),
   ('/view', 'view', 'View List'),
   ('/add', 'add', 'Add Items'),
-  ('/addbyimg', 'addbyimg', 'Add by Image')
+  ('/addbyimg', 'addbyimg', 'Scan Item (BETA)')
 ] -%}
 
 {% set active_page = active_page|default('index') -%}
@@ -104,6 +104,21 @@
 		</div>
 
 		<div class="ui vertical stripe segment">
+			{% with messages = get_flashed_messages() %}
+			{% if messages %}
+			{% for message in messages %}
+			<div class="ui container">
+				<div class="ui message" style="margin-bottom: 3em;">
+					<i class="close icon" style="top: 1em !important; right: 1em;"></i>
+					<p style="margin: 0 0">{{message}}</p>
+				</div>
+			</div>
+			{% endfor %}
+	  		{% endif %}
+			{% endwith %}
+		<script>
+			$('.message').on('click', function() { $(this).parent().transition('fade'); });
+		</script>
 			{% block content %}{% endblock %}
 		</div>
 	</div>

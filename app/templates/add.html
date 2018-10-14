@@ -8,16 +8,16 @@
 	<div class="row">
 		<div class="column">
 			<h1>Add items</h1>
-			<form action="" method="post">
+			<form action="" method="post" class="ui form">
 				{{ form.hidden_tag() }}
-				<p>
-					{{ form.item.label }}<br>
-					{{ form.item(size=16) }}
-				</p>
-				<p>
-					{{ form.quant.label }} <br>
+				<div class="field">
+					<label>{{ form.item.label }}</label>
+					{{ form.item(size=16, value=def_i) }}
+				</div>
+				<div class="field">
+					<label>{{ form.quant.label }}</label>
 					{{ form.quant(size=16) }}
-				</p>
+				</div>
 				<p>{{ form.submit() }}</p>
 			</form>
 		</div>

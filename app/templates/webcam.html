@@ -37,20 +37,17 @@
       <img id="useThis" src="">
     </div>
     <div class="description">
-      <div class="ui header" id="answer">Loading...</div>
+      <div class="ui header">IDENTIFIED: <span id="answer">Loading...</span></div>
       <p>The photo was sent to Clarifai for classification</p>
-      <p>Was the classification correct? (Enter a quantity if so.)</p>
-      <div class="field">
-        <label>Quantity:</label>
-        <input type="text" name="quant" id="q1" value="1">
-      </div>
+      <p>Was the classification correct?</p>
     </div>
   </div>
   <div class="actions">
     <div class="ui black deny button">
       Nope
     </div>
-    <div class="ui positive right labeled icon button">
+    <div class="ui positive right labeled icon button" id="jeff"
+         onclick="window.location.replace('/add?i='+document.getElementById('answer').innerHTML);">
       Yes, use it!
       <i class="checkmark icon"></i>
     </div>
@@ -62,7 +59,7 @@
     $(".test").modal('show');
     var myImg = $("#i1").val();
     $.post("/ai", {img: myImg}, function(data) {
-      $("#answer").html("IDENTIFIED: "+data);
+      $("#answer").html(data);
       $("#useThis").attr("src", myImg)
     });
   });

@@ -1,0 +1,75 @@
+item,optimal,roomtemp
+milk,Refridgerator,7
+chicken,Freezer,270
+egg,Refridgerator,14
+bread,Pantry,5
+carrot,Refridgerator,14
+broccoli,Refridgerator,3
+onion,Pantry,60
+tomato,Pantry,5
+spinach,Refridgerator,5
+butter,Refridgerator,30
+coffee,Refridgerator,1
+mozzarella,Refridgerator,7
+cookie,Pantry,14
+banana,Pantry,3
+cottage cheese,Refridgerator,7
+sour cream,Refridgerator,14
+yoghurt,Refridgerator,30
+ground beef,Freezer,90
+bacon,Refridgerator,7
+sausage,Freezer,30
+fish,Freezer,90
+apple,Refridgerator,30
+orange,Refridgerator,14
+grape,Refridgerator,7
+peach,Refridgerator,14
+pineapple,Refridgerator,7
+asparagus,Refridgerator,2
+mushroom,Refridgerator,3
+cabbage,Refridgerator,7
+cauliflower,Refridgerator,7
+celery,Refridgerator,7
+cucumber,Refridgerator,7
+lettuce,Refridgerator,7
+pepper,Refridgerator,7
+radish,Refridgerator,14
+corn,Refridgerator,1
+squash,Pantry,7
+pie,Refridgerator,2
+artichoke,Refridgerator,7
+avocado,Refridgerator,3
+basil,Pantry,7
+beet,Refridgerator,14
+strawberry,Refridgerator,3
+blueberry,Refridgerator,7
+brussel sprout,Refridgerator,3
+cantaloupe,Refridgerator,7
+cherry,Refridgerator,4
+eggplant,Refridgerator,5
+garlic,Pantry,90
+kale,Refridgerator,5
+bean,Refridgerator,3
+leek,Refridgerator,7
+lemon,Refridgerator,14
+lime,Refridgerator,21
+mango,Refridgerator,5
+papaya,Refridgerator,2
+pear,Refridgerator,5
+potato,Pantry,60
+watermelon,Refridgerator,14
+cream cheese,Refridgerator,14
+parmesan,Refridgerator,28
+hot dog,Refridgerator,10
+ham,Freezer,30
+steak,Freezer,180
+turkey,Freezer,270
+fruitcake,Refridgerator,180
+cupcake,Refridgerator,4
+tortilla,Refridgerator,14
+roll,Refridgerator,7
+quiche,Refridgerator,7
+muffin,Refridgerator,4
+donut,Refridgerator,7
+croissant,Refridgerator,7
+cheesecake,Refridgerator,7

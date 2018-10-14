@@ -9,6 +9,7 @@ from clarifai.rest import ClarifaiApp
 from clarifai.rest import Image as ClImage
 from binascii import a2b_base64
 import json
+import csv
 
 cfapp = ClarifaiApp(api_key='4f436d3877f148a7bf8ec1c680a44233')
 model = cfapp.models.get('food-items-v1.0')
@@ -28,18 +29,24 @@ def add():
 	form = ItemForm()
 	if form.validate_on_submit():
 		# Calls to Reference table deactivated until it is populated
-		# ref_item = Reference.query.filter_by(item=form.item.data).first()
+		ref_item = Reference.query.filter_by(item=form.item.data).first()
+		if ref_item is None:
+			shelf_life = 3
+		else:
+			shelf_life=ref_item.roomtemp
 		item = Fridge(user_id=current_user.get_id(),
 					  item=form.item.data,
 					  quantity=form.quant.data,
-					  expiration=datetime.now()+timedelta(days=5)#ref_item.roomtemp)
+					  expiration=datetime.now()+timedelta(days=shelf_life)
 				     )
 		db.session.add(item)
 		db.session.commit()
 		flash("Item successfully added.")
 		return redirect(url_for('add'))
-	return render_template('add.html', title='Add Items', form=form)
-
+	ai_item = request.args.get('i')
+	if ai_item is None:
+		ai_item = ""
+	return render_template('add.html', title='Add Items', form=form, def_i = ai_item)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -102,6 +109,18 @@ def delete():
 	Fridge.query.filter_by(id=itemID).delete()
 	db.session.commit()
 	return render_template_string("success")
+'''
+@app.route('/dontRunThis', methods=['GET', 'POST'])
+def dontrunthis():
+	with open("reference.csv") as csv_file:
+		for row in csv.reader(csv_file, delimiter=","):
+			ref = Reference(item=row[0],optimal=row[1],freezer=0,fridge=0,roomtemp=row[2])
+			db.session.add(ref)
+			db.session.commit()
+			# should return blueberry
+	return render_template_string("success: {{ mynamejeff }}", mynamejeff=Reference.query.filter_by(id='45').first().item)
+'''
+
 	
 
 
