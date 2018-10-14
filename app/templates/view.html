@@ -1,26 +1,53 @@
 {% extends "base.html" %}
+{% set active_page = "view" %}
+
+{% block title %}View Items{% endblock %}
 
 {% block content %}
-	<h1>Hi, {{ current_user.username }}!</h1>
-	<h1><u>View items</u></h1>
-	<div>
-		<table>
-			<tr>
-				<th>Item</th>
-				<th>Quantity</th>
-				<th>Date Purchased</th>
-				<th>Date Expiring</th>
-			</tr>
-			{% for item in fridges %}
-			<tr>
-				<td>{{ item.item }}</td>
-				<td>{{ item.quantity }}</td>
-				<td>{{ item.timestamp }}</td>
-				<td>{{ item.expiration }}</td>
-			</tr>
-			{% endfor %}
-			</tbody>
-		</table>
-	</div>
-	<a href="{{ url_for('add') }}">Add Item</a>
+<div class="ui middle aligned stackable grid container">
+	<div class="row">
+		<div class="column">
+			<h1>View items</h1><br>
+			<table class="ui very padded table">
+				<thead>
+					<tr>
+						<th>Item</th>
+						<th>Quantity</th>
+						<th>Purchased</th>
+						<th>Expiring</th>
+						<th>Use/Throw</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in fridges %}
+					<tr id="tr{{ item.id }}">
+						<td>{{ item.item }}</td>
+						<td>{{ item.quantity }}</td>
+						<td>{{ item.timestamp }}</td>
+						<td>{{ item.expiration }}</td>
+						<td>
+							<button class="ui compact icon button" onclick='discardRow("{{ item.id }}");'>
+  							<i class="trash icon"></i>
+							</button>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+    </div>
+</div>
+<script>
+	function discardRow(rowID) {
+		var xhttp = new XMLHttpRequest();
+  		xhttp.onreadystatechange = function() {
+    		if (this.readyState == 4 && this.status == 200) {
+      			document.getElementById("tr"+rowID).innerHTML = "";
+    		}
+  		}
+  		xhttp.open("POST", "/delete", true);
+  		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send("id="+rowID); 
+	}
+</script>
 {% endblock %}

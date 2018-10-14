@@ -1,19 +1,28 @@
 {% extends "base.html" %}
+{% set active_page = "login" %}
+
+{% block title %}Log In{% endblock %}
 
 {% block content %}
-    <h1>Sign In</h1>
-    <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}
-        </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit() }}</p>
-    </form>
-    <p>Need to register? <a href="{{ url_for('register') }}">Click here!</a></p>
+<div class="ui middle aligned stackable grid container">
+    <div class="row">
+        <div class="column">
+            <h1>Log In</h1>
+            <form action="" method="post" class="ui form" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="field">
+                <label>{{ form.username.label }}</label>
+                {{ form.username(size=32) }}
+            </div>
+            <div class="field">
+                <label>{{ form.password.label }}</label>
+                {{ form.password(size=32) }}
+            </div>
+            <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+            <p>{{ form.submit() }}</p>
+            </form>
+            <p>Need to register? <a href="{{ url_for('register') }}">Click here!</a></p>
+        </div>
+    </div>
+</div>   
 {% endblock %}

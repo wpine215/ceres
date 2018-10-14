@@ -1,18 +1,117 @@
+{% set navigation_bar = [
+  ('/', 'index', 'Home'),
+  ('/view', 'view', 'View List'),
+  ('/add', 'add', 'Add Items'),
+  ('/addbyimg', 'addbyimg', 'Add by Image')
+] -%}
+
+{% set active_page = active_page|default('index') -%}
+
 <html>
 	<head>
-		<title>{{ title }}</title>
+		<title>Frigo | {% block title %}{% endblock %}</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='semantic.css') }}">
+		<link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet"> 
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+				integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+				crossorigin="anonymous"></script>
+		<script src="{{ url_for('static',filename='semantic.js') }}"></script>
+		<style type="text/css">
+    	.ui.segment {
+    		margin: 0em;
+    		border-radius: 0px;
+    	}
+
+    	.ui.segment.masthead {
+    		min-height: 225px;
+        	background: url("{{ url_for('static',filename='shattered3.png') }}");
+    		background-color: skyblue;
+    	}
+
+    	.ui.segment.masthead > h1 {
+        	font-family: 'Righteous', sans-serif;
+    		font-size: 7em;
+      		text-align: center;
+      		font-weight: normal;
+      		margin-top: 0.5em;
+    	}
+
+    	.topbar .ui.menu .ui.button {
+    		margin-left: 0.5em;
+    	}
+
+    	.ui.vertical.stripe {
+    		padding: 5em 0em;
+		}
+		.ui.vertical.stripe h3 {
+    		font-size: 2em;
+		}
+		.ui.vertical.stripe .button + h3,
+    	.ui.vertical.stripe p + h3 {
+      		margin-top: 3em;
+    	}
+    	.ui.vertical.stripe .floated.image {
+      		clear: both;
+    	}
+    	.ui.vertical.stripe p {
+    		font-size: 1.33em;
+    	}
+    	.ui.vertical.stripe .horizontal.divider {
+     		margin: 3em 0em;
+    	}
+
+		.footer.segment {
+			padding: 5em 0em;
+		}
+
+    	.ui.card, .ui.cards > .card {
+      		min-width: 32%;
+      		max-width: 33%;
+    	}
+
+    	.ui.mini.step, .ui.mini.steps .step {
+      		font-size: .5rem;
+    	}
+		</style>
 	</head>
+	{% if active_page == 'addbyimg' %}
+	<body onload="init();">
+	{% else %}
 	<body>
+	{% endif %}
 		<div>
-        Frigo:
-        <a href="{{ url_for('index') }}">Home</a>
-        {% if current_user.is_anonymous %}
-        <a href="{{ url_for('login') }}">Log In</a>
-        {% else %}
-        <a href="{{ url_for('logout') }}">Log Out</a>
-        {% endif %}
+			<div class="ui top fixed inverted segment topbar">
+				<div class="ui container">
+					<div class="ui inverted secondary huge menu">
+         			{% for href, id, caption in navigation_bar %}
+          			<a class="{% if id == active_page %}active {% endif
+          			%} item" href="{{ href|e }}">{{ caption|e }}</a>
+          			{% endfor %}
+					<div class="right item">
+						{% if current_user.is_anonymous %}
+						<a class="ui inverted button" href="{{ url_for('login') }}">Log In</a>
+						<a class="ui inverted button" href="{{ url_for('register') }}">Sign Up</a>
+						{% else %}
+						<a class="ui disabled button">Hi, {{ current_user.username }}!</a>
+						<a class="ui inverted button" href="{{ url_for('logout') }}">Log Out</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
 		</div>
-		<hr>
-		{% block content %}{% endblock %}
-	</body>
+		<div class="ui segment masthead">
+			<h1 class="ui inverted header">Frigo</h1>
+		</div>
+
+		<div class="ui vertical stripe segment">
+			{% block content %}{% endblock %}
+		</div>
+	</div>
+
+<div class="ui inverted footer segment">
+		<div class="ui container">
+			<br><br><br>
+        </div>
+    </div>
+</body>
 </html>

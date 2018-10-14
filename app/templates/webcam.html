@@ -1,21 +1,76 @@
-<!DOCTYPE html>
-<html>
-  <head>
-  </head>
-  <body onload="init();">
-    <h1>Take a snapshot of the current video stream</h1>
-   Click on the Start WebCam button.
-     <p>
-    <button onclick="startWebcam();">Start WebCam</button>
-    <button onclick="stopWebcam();">Stop WebCam</button> 
-       <button onclick="snapshot();">Take Snapshot</button> 
-    </p>
-    <video onclick="snapshot(this);" width=400 height=400 id="video" controls autoplay></video>
-  <p>
+{% extends "base.html" %}
+{% set active_page = "addbyimg" %}
 
-        Screenshots : <p>
-      <canvas  id="myCanvas" width="400" height="350"></canvas>  
-  </body>
+{% block title %}Add by Image{% endblock %}
+
+{% block content %}
+<div class="ui two column stackable grid container">
+    <div class="row">
+        <div class="column">
+          <h1>Take photo from webcam:</h1>
+          <video onclick="snapshot(this);" width=400 height=400 id="video" controls autoplay></video>
+          <p>
+            <button onclick="startWebcam();">Initialize</button>
+            <button onclick="snapshot();">Capture</button>
+            <button onclick="stopWebcam();">Stop</button>  
+          </p>
+        </div>
+        <div class="column">
+          <h1>Snapshot: </h1><br><br>
+          <canvas id="myCanvas" width="400" height="300"></canvas><br><br><br>
+          <form action="" method="POST">
+            <h2>
+            <input type="text" name="img" id="i1" value="">
+            <input type="button" id="test" value="Submit">
+            </h2>
+          </form>
+        </div>
+    </div>
+</div>
+<div class="ui modal test">
+  <i class="close icon"></i>
+  <div class="header">
+    Image Classification
+  </div>
+  <div class="image content">
+    <div class="ui medium image">
+      <img id="useThis" src="">
+    </div>
+    <div class="description">
+      <div class="ui header" id="answer">Loading...</div>
+      <p>The photo was sent to Clarifai for classification</p>
+      <p>Was the classification correct? (Enter a quantity if so.)</p>
+      <div class="field">
+        <label>Quantity:</label>
+        <input type="text" name="quant" id="q1" value="1">
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      Nope
+    </div>
+    <div class="ui positive right labeled icon button">
+      Yes, use it!
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
+<script>
+  $(function(){
+  $("#test").click(function(){
+    $(".test").modal('show');
+    var myImg = $("#i1").val();
+    $.post("/ai", {img: myImg}, function(data) {
+      $("#answer").html("IDENTIFIED: "+data);
+      $("#useThis").attr("src", myImg)
+    });
+  });
+  $(".test").modal({
+    closable: true
+  });
+});
+</script>
   <script>
       //--------------------
       // GET USER MEDIA CODE
@@ -73,7 +128,8 @@
       function snapshot() {
          // Draws current image from the video element into the canvas
         ctx.drawImage(video, 0,0, canvas.width, canvas.height);
+        var dataURL = canvas.toDataURL('image/png');
+        document.getElementById('i1').value = dataURL;
       }
-
   </script>
-</html>
+{% endblock %}
